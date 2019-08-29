@@ -1,0 +1,31 @@
+﻿@model IEnumerable<UI.Data.Category>
+@{
+    var parentCategoryList = Model.Where(c => !c.ParentCategoryId.HasValue).ToList();
+    var selectedCategory = ViewBag.SelectedCategory;
+}
+
+@section Scripts{ 
+    <script>
+        var selectedId = @ViewBag.SelectedCategory;
+        $(function () {
+            if (selectedId != null && selectedId != undefined) {
+                $("#ParentCategoryId").val(selectedId);
+            }
+        });
+    </script>
+}
+<select name="ParentCategoryId" id="ParentCategoryId" class="form-control">
+    <option value="">----Select all----</option>
+    @foreach (var parent in parentCategoryList)
+    {
+        var childs = Model.Where(c => c.ParentCategoryId == parent.CategoryId).ToList();
+        <optgroup label="@parent.CategoryName">
+            @foreach (var child in childs)
+            {
+                <option value="@child.CategoryId">
+                    @child.CategoryName
+                </option>
+            }
+        </optgroup>
+    }
+</select>
