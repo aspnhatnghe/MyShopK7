@@ -29,5 +29,17 @@ namespace UI.Data
         public int? SupplierId { get; set; }
         [ForeignKey("SupplierId")]
         public Manufacturer Manufacturer { get; set; }
+        public string MainImage { get; set; }
+    }
+
+    [Table("ProductImage")]
+    public class ProductImage
+    {
+        public int Id { get; set; }
+        [MaxLength(150)]
+        public string FileName { get; set; }
+        public int ProductId { get; set; }
+        [ForeignKey("ProductId")]
+        public Product Product { get; set; }
     }
 }
