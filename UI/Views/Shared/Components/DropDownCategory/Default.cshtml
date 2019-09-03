@@ -2,6 +2,7 @@
 @{
     var parentCategoryList = Model.Where(c => !c.ParentCategoryId.HasValue).ToList();
     var selectedCategory = ViewBag.SelectedCategory;
+    var controlId = ViewBag.ControlId;
 }
 
 @section Scripts{ 
@@ -9,12 +10,12 @@
         var selectedId = @ViewBag.SelectedCategory;
         $(function () {
             if (selectedId != null && selectedId != undefined) {
-                $("#ParentCategoryId").val(selectedId);
+                $("#@controlId").val(selectedId);
             }
         });
     </script>
 }
-<select name="ParentCategoryId" id="ParentCategoryId" class="form-control">
+<select name="@controlId" id="@controlId" class="form-control">
     <option value="">----Select all----</option>
     @foreach (var parent in parentCategoryList)
     {

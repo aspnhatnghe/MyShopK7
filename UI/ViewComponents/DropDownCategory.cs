@@ -15,9 +15,10 @@ namespace UI.ViewComponents
             _context = context;
         }
 
-        public IViewComponentResult Invoke(int? selectedCategory)
+        public IViewComponentResult Invoke(int? selectedCategory, string controlId = "ParentCategoryId")
         {
             ViewBag.SelectedCategory = selectedCategory;
+            ViewBag.ControlId = controlId;
             return View("Default", _context.Categories.ToList());
         }
     }
