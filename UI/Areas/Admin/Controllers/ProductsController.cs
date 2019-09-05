@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using UI.Data;
+using UI.Models;
 
 namespace UI.Areas.Admin.Controllers
 {
@@ -59,12 +61,29 @@ namespace UI.Areas.Admin.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ProductId,Title,Description,Price,Discount,Amount,CategoryId,SupplierId,MainImage")] Product product)
+        public async Task<IActionResult> Create([Bind("ProductId,Title,Description,Price,Discount,Amount,CategoryId,SupplierId")] Product product, IFormFile MainImage, List<IFormFile> MoreImage)
         {
             if (ModelState.IsValid)
             {
                 _context.Add(product);
                 await _context.SaveChangesAsync();
+
+                //save thành công --> có mã
+                //Main Image
+                product.MainImage = MyTools.SaveFileToFolder(MainImage, "Products", product.ProductId.ToString());
+
+                foreach (var file in MoreImage)
+                {
+                    var imageFullName = MyTools.SaveFileToFolder(file, "Products", product.ProductId.ToString());
+                    var proImage = new ProductImage
+                    {
+                        ProductId = product.ProductId,
+                        FileName = imageFullName
+                    };
+                    _context.Add(proImage);
+                }
+                _context.SaveChanges();
+
                 return RedirectToAction(nameof(Index));
             }
             ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName", product.CategoryId);
@@ -95,7 +114,7 @@ namespace UI.Areas.Admin.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ProductId,Title,Description,Price,Discount,Amount,CategoryId,SupplierId,MainImage")] Product product)
+        public async Task<IActionResult> Edit(int id, [Bind("ProductId,Title,Description,Price,Discount,Amount,CategoryId,SupplierId,MainImage")] Product product, IFormFile fMainImage)
         {
             if (id != product.ProductId)
             {
@@ -106,6 +125,10 @@ namespace UI.Areas.Admin.Controllers
             {
                 try
                 {
+                    if(fMainImage != null)
+                    {
+                        product.MainImage = MyTools.SaveFileToFolder(fMainImage, "Products", product.ProductId.ToString());
+                    }
                     _context.Update(product);
                     await _context.SaveChangesAsync();
                 }
