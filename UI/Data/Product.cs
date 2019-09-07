@@ -30,6 +30,12 @@ namespace UI.Data
         [ForeignKey("SupplierId")]
         public Manufacturer Manufacturer { get; set; }
         public string MainImage { get; set; }
+
+        public ICollection<ProductImage> ProductImages { get; set; }
+        public Product()
+        {
+            ProductImages = new HashSet<ProductImage>();
+        }
     }
 
     [Table("ProductImage")]

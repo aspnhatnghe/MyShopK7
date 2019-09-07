@@ -58,7 +58,7 @@
                                         <img src="~/images/Products/@product.ProductId/@product.MainImage" alt="book" class="primary" />
                                     </a>
                                     <div class="quick-view">
-                                        <a class="action-view" href="#" data-target="#productModal" data-toggle="modal" title="Quick View">
+                                        <a class="action-view preview-product" data-id="@product.ProductId" href="#" title="Quick View">
                                             <i class="fa fa-search-plus"></i>
                                         </a>
                                     </div>
@@ -95,7 +95,7 @@
                                     </div>
                                     <div class="add-to-link">
                                         <ul>
-                                            <li><a href="product-details.html" title="Details"><i class="fa fa-external-link"></i></a></li>
+                                            <li><a asp-controller="Product" asp-action="Detail" asp-route-id="@product.ProductId" title="Chi tiết"><i class="fa fa-external-link"></i></a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -350,3 +350,38 @@
 </div>
 
 
+<!-- Modal -->
+<div class="modal fade" id="productModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">x</span></button>
+            </div>
+            <div class="modal-body" id="previewContent">
+                
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal end -->
+
+@section Scripts{ 
+    <script>
+        $(function () {
+            $(".preview-product").click(function (e) {
+                var productId = $(this).data("id");
+
+                $.ajax({
+                    url: "/Product/Preview/",
+                    data: { id: productId },
+                    success: function (data) {
+                        $("#previewContent").html(data);
+                        $("#productModal").modal("show");
+                    }
+                });
+
+                e.preventDefault();
+            });
+        });
+    </script>
+}

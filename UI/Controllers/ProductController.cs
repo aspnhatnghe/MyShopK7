@@ -60,5 +60,25 @@ namespace UI.Controllers
 
             return View(data);
         }
+
+        public IActionResult Detail(int id)
+        {
+            var product = _context.Products.SingleOrDefault(p => p.ProductId == id);
+            if(product == null)//tìm ko có
+            {
+                return RedirectToAction("Index");
+            }
+
+            //lấy hình phụ
+            product.ProductImages = _context.ProductImages.Where(p => p.ProductId == product.ProductId).ToList();
+
+            return View(product);
+        }
+
+        public IActionResult Preview(int id)
+        {
+            var product = _context.Products.SingleOrDefault(p => p.ProductId == id);
+            return PartialView(product);
+        }
     }
 }
