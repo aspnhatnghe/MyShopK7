@@ -6,13 +6,19 @@
 {
     var level2 = Model.Where(p => p.ParentCategoryId.HasValue && p.ParentCategoryId.Value == cate1.CategoryId).ToList();
     <li>
-        <a href="product-details.html">@cate1.CategoryName<i class="fa fa-angle-down"></i></a>
+        <a asp-controller="Product" asp-action="Index"
+           asp-route-cateId="@cate1.CategoryId">
+            @cate1.CategoryName<i class="fa fa-angle-down"></i>
+        </a>
         <div class="mega-menu">
             <span>
                 <a href="#" class="title">Các loại:</a>
                 @foreach (var cate2 in level2)
                 {
-                    <a href="shop.html">@cate2.CategoryName</a>
+                    <a asp-controller="Product"
+                       asp-action="Index" asp-route-cateId="@cate2.CategoryId">
+                        @cate2.CategoryName
+                    </a>
                 }
             </span>
         </div>
