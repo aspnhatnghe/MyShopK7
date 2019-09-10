@@ -1,0 +1,36 @@
+﻿@model IEnumerable<CartItem>
+
+<div class="my-cart">
+    <ul>
+        <li>
+            <a href="#"><i class="fa fa-shopping-cart"></i></a>
+            <span>@Model.Count()</span>
+            <div class="mini-cart-sub">
+                <div class="cart-product">
+                    @foreach (var item in Model)
+                    {
+                        <div class="single-cart">
+                            <div class="cart-img">
+                                <a href="/Product/Detail/@item.MaHh"><img src="~/images/Products/@item.MaHh/@item.Hinh" alt="book" /></a>
+                            </div>
+                            <div class="cart-info">
+                                <h5><a asp-action="Detail" asp-controller="Product" asp-route-id="@item.MaHh">@item.TenHh</a></h5>
+                                <p>@item.SoLuong x @item.GiaBan.ToVND()</p>
+                            </div>
+                            <div class="cart-icon">
+                                <a asp-controller="Cart" asp-action="RemoveCartItem" asp-route-id="@item.MaHh"><i class="fa fa-remove"></i></a>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="cart-totals">
+                    <h5>Tổng cộng <span>@Model.Sum(p => p.ThanhTien).ToVND()</span></h5>
+                </div>
+                <div class="cart-bottom">
+                    <a class="view-cart" asp-controller="Cart">Giỏ hàng</a>
+                    <a href="checkout.html">Thanh toán</a>
+                </div>
+            </div>
+        </li>
+    </ul>
+</div>

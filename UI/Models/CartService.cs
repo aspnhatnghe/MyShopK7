@@ -41,6 +41,8 @@ namespace UI.Models
                     //map product ---> cartItem
                     item = _mapper.Map<CartItem>(product);
                     item.SoLuong = quantity;
+
+                    carts.Add(item);
                 }
             }
 
