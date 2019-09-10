@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using UI.Data;
+using UI.Models;
 
 namespace UI
 {
@@ -37,9 +38,16 @@ namespace UI
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
+            //.AddDbContext() : Singleton()
             services.AddDbContext<MyDbContext>(option => option.UseSqlServer(Configuration.GetConnectionString("MyShop")));
 
-            //services.AddAutoMapper();
+            services.AddAutoMapper();
+
+            //Khai báo để sử dụng Session ở class  (.AddTransient() giá trị khác nhau mỗi lần request)
+            services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
+
+            services.AddTransient<ICartService, CartService>();
+            services.AddSession();
 
         }
 
@@ -60,6 +68,7 @@ namespace UI
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+            app.UseSession();
 
             app.UseMvc(routes =>
             {
