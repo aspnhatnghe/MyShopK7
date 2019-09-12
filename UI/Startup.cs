@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using UI.Data;
+using UI.Helpers;
 using UI.Models;
 
 namespace UI
@@ -49,8 +50,9 @@ namespace UI
             services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddTransient<ICartService, CartService>();
-            
 
+            //đăng ký MailConfig dạng service để tiêm (inject) vào nơi cầu sử dụng
+            services.Configure<MailConfig>(Configuration.GetSection("MailConfig"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
