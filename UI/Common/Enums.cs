@@ -19,4 +19,9 @@ namespace UI.Common
         COD, CreditCard, Tranfer,
         InternetBanking, SMSBanking, MobileBanking
     }
+
+    public enum CouponStatus
+    {
+        New, Used, Expired
+    }
 }

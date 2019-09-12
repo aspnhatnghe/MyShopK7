@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Index";
+    var tongTien = Model.Sum(p => p.ThanhTien);
 }
 
 <div class="container">
@@ -39,33 +40,50 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12">
+        <div class="col-lg-8 col-md-7 col-sm-6 col-xs-12">
             <div class="buttons-cart mb-30">
                 <ul>
-                    <li><a href="#">Update Cart</a></li>
-                    <li><a href="#">Continue Shopping</a></li>
+                    <li><a href="#">Cập nhật đơn hàng</a></li>
+                    <li><a asp-controller="Product">Tiếp tục mua hàng</a></li>
                 </ul>
             </div>
             <div class="coupon">
                 <h3>Coupon</h3>
-                <p>Enter your coupon code if you have one.</p>
-                <form action="#">
-                    <input type="text" placeholder="Coupon code">
-                    <a href="#">Apply Coupon</a>
+                <p>Điền mã quà tặng (nếu có).</p>
+                <form asp-controller="Cart" asp-action="ApplyCoupon">
+                    <input required name="CouponCode" placeholder="Coupon code">
+                    <button class="btn btn-success">Áp dụng</button>
+                    <span class="text-danger">@ViewBag.CouponMessage</span>
                 </form>
             </div>
         </div>
-        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+        <div class="col-lg-4 col-md-5 col-sm-6 col-xs-12">
             <div class="cart_totals">
-                <h2>Cart Totals</h2>
+                <h2>Thông tin Thanh toán</h2>
                 <table>
                     <tbody>
                         <tr class="cart-subtotal">
-                            <th>Subtotal</th>
+                            <th>Tiền</th>
                             <td>
-                                <span class="amount">£215.00</span>
+                                <span class="amount">@tongTien.ToVND()</span>
                             </td>
                         </tr>
+                        @{
+                            var discountCoupon = 0.0;
+                            var coupon = Context.Session.Get<Coupon>("Coupon");
+                        }
+                        @using UI.Helpers
+                        @if (coupon != null)
+                        {
+                            var disPer = coupon.Discount ?? 0 * tongTien;
+                            var vourche = coupon.Voucher ?? 0;
+                            discountCoupon = Math.Max(disPer, vourche);
+                            <tr>
+                                <td>COUPON</td>
+                                <td>
+                                    <span class="amount">- @discountCoupon.ToVND()</span></td>
+                            </tr>
+                        }
                         <tr class="shipping">
                             <th>Shipping</th>
                             <td>
@@ -86,10 +104,10 @@
                             </td>
                         </tr>
                         <tr class="order-total">
-                            <th>Total</th>
+                            <th>Tổng tiền</th>
                             <td>
                                 <strong>
-                                    <span class="amount">£215.00</span>
+                                    <span class="amount">@((tongTien - discountCoupon).ToVND())</span>
                                 </strong>
                             </td>
                         </tr>
