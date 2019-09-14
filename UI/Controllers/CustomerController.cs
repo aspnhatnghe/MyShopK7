@@ -20,12 +20,6 @@ namespace UI.Controllers
             _context = context;
         }
 
-        // GET: Customer
-        public async Task<IActionResult> Index()
-        {
-            return View(await _context.Customers.ToListAsync());
-        }
-
         // GET: Customer/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -45,29 +39,29 @@ namespace UI.Controllers
         }
 
         // GET: Customer/Create
-        public IActionResult Create()
+        [AllowAnonymous]
+        public IActionResult Register()
         {
             return View();
         }
 
         // POST: Customer/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [AllowAnonymous]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CustomerId,FullName,Email,EmailConfirmed,Address,Phone,PhoneConfirmed,Username,Password,RandomKey,IsActive")] Customer customer)
+        public async Task<IActionResult> Register([Bind("CustomerId,FullName,Email,EmailConfirmed,Address,Phone,PhoneConfirmed,Username,Password,RandomKey,IsActive")] Customer customer)
         {
             if (ModelState.IsValid)
             {
                 _context.Add(customer);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Product");
             }
             return View(customer);
         }
 
         // GET: Customer/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Profile(int? id)
         {
             if (id == null)
             {
@@ -87,7 +81,7 @@ namespace UI.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CustomerId,FullName,Email,EmailConfirmed,Address,Phone,PhoneConfirmed,Username,Password,RandomKey,IsActive")] Customer customer)
+        public async Task<IActionResult> Profile(int id, [Bind("CustomerId,FullName,Email,EmailConfirmed,Address,Phone,PhoneConfirmed,Username,Password,RandomKey,IsActive")] Customer customer)
         {
             if (id != customer.CustomerId)
             {
