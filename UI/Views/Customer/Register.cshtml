@@ -1,4 +1,4 @@
-﻿@model UI.Data.Customer
+﻿@model UI.ViewModels.RegisterViewModel
 
 @{
     ViewData["Title"] = "Create";
@@ -7,7 +7,7 @@
 <h1>Register Customer</h1>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-8 m-auto">
         <form asp-action="Register">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
@@ -20,11 +20,6 @@
                 <input asp-for="Email" class="form-control" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="EmailConfirmed" /> @Html.DisplayNameFor(model => model.EmailConfirmed)
-                </label>
-            </div>
             <div class="form-group">
                 <label asp-for="Address" class="control-label"></label>
                 <input asp-for="Address" class="form-control" />
@@ -34,11 +29,6 @@
                 <label asp-for="Phone" class="control-label"></label>
                 <input asp-for="Phone" class="form-control" />
                 <span asp-validation-for="Phone" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="PhoneConfirmed" /> @Html.DisplayNameFor(model => model.PhoneConfirmed)
-                </label>
             </div>
             <div class="form-group">
                 <label asp-for="Username" class="control-label"></label>
@@ -51,17 +41,7 @@
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="RandomKey" class="control-label"></label>
-                <input asp-for="RandomKey" class="form-control" />
-                <span asp-validation-for="RandomKey" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsActive" /> @Html.DisplayNameFor(model => model.IsActive)
-                </label>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Register" class="btn btn-primary" />
             </div>
         </form>
     </div>

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using UI.Data;
+using UI.ViewModels;
 
 namespace UI.Controllers
 {
@@ -18,6 +19,22 @@ namespace UI.Controllers
         public CustomerController(MyDbContext context)
         {
             _context = context;
+        }
+
+        [AllowAnonymous]
+        public IActionResult CheckEmailUnique(string Email)
+        {
+            var customer = _context.Customers.Where(p => p.Email == Email).ToList();
+
+            return Json(customer.Count == 0);
+        }
+
+        [AllowAnonymous]
+        public IActionResult CheckUsernameUnique(string Username)
+        {
+            var customer = _context.Customers.Where(p => p.Username == Username).ToList();
+
+            return Json(customer.Count == 0);
         }
 
         // GET: Customer/Details/5
@@ -49,11 +66,11 @@ namespace UI.Controllers
         [AllowAnonymous]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register([Bind("CustomerId,FullName,Email,EmailConfirmed,Address,Phone,PhoneConfirmed,Username,Password,RandomKey,IsActive")] Customer customer)
+        public async Task<IActionResult> Register([Bind("FullName,Email,Address,Phone,Username,Password")] RegisterViewModel customer)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(customer);
+                //_context.Add(customer);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index", "Product");
             }
