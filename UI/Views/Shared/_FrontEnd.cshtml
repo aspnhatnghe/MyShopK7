@@ -58,9 +58,16 @@
                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                         <div class="account-area text-right">
                             <ul>
-                                <li><a  asp-action="Profile" asp-controller="Customer">My Account</a></li>
-                                <li><a href="checkout.html">Checkout</a></li>
-                                <li><a asp-action="Login" asp-controller="Customer">Sign in</a></li>
+                                @if (Context.User.Identity.IsAuthenticated)
+                                {
+                                    <li><a asp-action="Profile" asp-controller="Customer">My Account</a></li>
+                                    <li><a href="checkout.html">Checkout</a></li>
+                                }
+                                else
+                                {
+                                    <li><a asp-action="Register" asp-controller="Customer">Register</a></li>
+                                    <li><a asp-action="Login" asp-controller="Customer">Sign in</a></li>
+                                }
                             </ul>
                         </div>
                     </div>
@@ -113,66 +120,66 @@
                                         </div>
                                     </li>
                                     @await Component.InvokeAsync("CategoryMenu")
-                                    
+
                                     @*<li>
-                                        <a href="product-details.html">Audio books<i class="fa fa-angle-down"></i></a>
-                                        <div class="mega-menu">
-                                            <span>
-                                                <a href="#" class="title">Shirts</a>
-                                                <a href="shop.html">Tops & Tees</a>
-                                                <a href="shop.html">Sweaters </a>
-                                                <a href="shop.html">Hoodies</a>
-                                                <a href="shop.html">Jackets & Coats</a>
-                                            </span>
-                                            <span>
-                                                <a href="#" class="title">Tops & Tees</a>
-                                                <a href="shop.html">Long Sleeve </a>
-                                                <a href="shop.html">Short Sleeve</a>
-                                                <a href="shop.html">Polo Short Sleeve</a>
-                                                <a href="shop.html">Sleeveless</a>
-                                            </span>
-                                            <span>
-                                                <a href="#" class="title">Jackets</a>
-                                                <a href="shop.html">Sweaters</a>
-                                                <a href="shop.html">Hoodies</a>
-                                                <a href="shop.html">Wedges</a>
-                                                <a href="shop.html">Vests</a>
-                                            </span>
-                                            <span>
-                                                <a href="#" class="title">Jeans Pants</a>
-                                                <a href="shop.html">Polo Short Sleeve</a>
-                                                <a href="shop.html">Sleeveless</a>
-                                                <a href="shop.html">Graphic T-Shirts</a>
-                                                <a href="shop.html">Hoodies</a>
-                                            </span>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <a href="product-details.html">children’s books<i class="fa fa-angle-down"></i></a>
-                                        <div class="mega-menu mega-menu-2">
-                                            <span>
-                                                <a href="#" class="title">Tops</a>
-                                                <a href="shop.html">Shirts</a>
-                                                <a href="shop.html">Florals</a>
-                                                <a href="shop.html">Crochet</a>
-                                                <a href="shop.html">Stripes</a>
-                                            </span>
-                                            <span>
-                                                <a href="#" class="title">Bottoms</a>
-                                                <a href="shop.html">Shorts</a>
-                                                <a href="shop.html">Dresses</a>
-                                                <a href="shop.html">Trousers</a>
-                                                <a href="shop.html">Jeans</a>
-                                            </span>
-                                            <span>
-                                                <a href="#" class="title">Shoes</a>
-                                                <a href="shop.html">Heeled sandals</a>
-                                                <a href="shop.html">Flat sandals</a>
-                                                <a href="shop.html">Wedges</a>
-                                                <a href="shop.html">Ankle boots</a>
-                                            </span>
-                                        </div>
-                                    </li>*@
+                                            <a href="product-details.html">Audio books<i class="fa fa-angle-down"></i></a>
+                                            <div class="mega-menu">
+                                                <span>
+                                                    <a href="#" class="title">Shirts</a>
+                                                    <a href="shop.html">Tops & Tees</a>
+                                                    <a href="shop.html">Sweaters </a>
+                                                    <a href="shop.html">Hoodies</a>
+                                                    <a href="shop.html">Jackets & Coats</a>
+                                                </span>
+                                                <span>
+                                                    <a href="#" class="title">Tops & Tees</a>
+                                                    <a href="shop.html">Long Sleeve </a>
+                                                    <a href="shop.html">Short Sleeve</a>
+                                                    <a href="shop.html">Polo Short Sleeve</a>
+                                                    <a href="shop.html">Sleeveless</a>
+                                                </span>
+                                                <span>
+                                                    <a href="#" class="title">Jackets</a>
+                                                    <a href="shop.html">Sweaters</a>
+                                                    <a href="shop.html">Hoodies</a>
+                                                    <a href="shop.html">Wedges</a>
+                                                    <a href="shop.html">Vests</a>
+                                                </span>
+                                                <span>
+                                                    <a href="#" class="title">Jeans Pants</a>
+                                                    <a href="shop.html">Polo Short Sleeve</a>
+                                                    <a href="shop.html">Sleeveless</a>
+                                                    <a href="shop.html">Graphic T-Shirts</a>
+                                                    <a href="shop.html">Hoodies</a>
+                                                </span>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <a href="product-details.html">children’s books<i class="fa fa-angle-down"></i></a>
+                                            <div class="mega-menu mega-menu-2">
+                                                <span>
+                                                    <a href="#" class="title">Tops</a>
+                                                    <a href="shop.html">Shirts</a>
+                                                    <a href="shop.html">Florals</a>
+                                                    <a href="shop.html">Crochet</a>
+                                                    <a href="shop.html">Stripes</a>
+                                                </span>
+                                                <span>
+                                                    <a href="#" class="title">Bottoms</a>
+                                                    <a href="shop.html">Shorts</a>
+                                                    <a href="shop.html">Dresses</a>
+                                                    <a href="shop.html">Trousers</a>
+                                                    <a href="shop.html">Jeans</a>
+                                                </span>
+                                                <span>
+                                                    <a href="#" class="title">Shoes</a>
+                                                    <a href="shop.html">Heeled sandals</a>
+                                                    <a href="shop.html">Flat sandals</a>
+                                                    <a href="shop.html">Wedges</a>
+                                                    <a href="shop.html">Ankle boots</a>
+                                                </span>
+                                            </div>
+                                        </li>*@
 
                                     <li>
                                         <a href="#">blog<i class="fa fa-angle-down"></i></a>
@@ -184,24 +191,24 @@
                                         </div>
                                     </li>
                                     @*<li>
-                                        <a href="#">pages<i class="fa fa-angle-down"></i></a>
-                                        <div class="sub-menu sub-menu-2">
-                                            <ul>
-                                                <li><a href="shop.html">shop</a></li>
-                                                <li><a href="product-details.html">product-details</a></li>
-                                                <li><a href="blog.html">blog</a></li>
-                                                <li><a href="blog-details.html">blog-details</a></li>
-                                                <li><a href="contact.html">contact</a></li>
-                                                <li><a href="about.html">about</a></li>
-                                                <li><a href="login.html">login</a></li>
-                                                <li><a href="register.html">register</a></li>
-                                                <li><a href="cart.html">cart</a></li>
-                                                <li><a href="checkout.html">checkout</a></li>
-                                                <li><a href="wishlist.html">wishlist</a></li>
-                                                <li><a href="404.html">404 Page</a></li>
-                                            </ul>
-                                        </div>
-                                    </li>*@
+                                            <a href="#">pages<i class="fa fa-angle-down"></i></a>
+                                            <div class="sub-menu sub-menu-2">
+                                                <ul>
+                                                    <li><a href="shop.html">shop</a></li>
+                                                    <li><a href="product-details.html">product-details</a></li>
+                                                    <li><a href="blog.html">blog</a></li>
+                                                    <li><a href="blog-details.html">blog-details</a></li>
+                                                    <li><a href="contact.html">contact</a></li>
+                                                    <li><a href="about.html">about</a></li>
+                                                    <li><a href="login.html">login</a></li>
+                                                    <li><a href="register.html">register</a></li>
+                                                    <li><a href="cart.html">cart</a></li>
+                                                    <li><a href="checkout.html">checkout</a></li>
+                                                    <li><a href="wishlist.html">wishlist</a></li>
+                                                    <li><a href="404.html">404 Page</a></li>
+                                                </ul>
+                                            </div>
+                                        </li>*@
                                 </ul>
                             </nav>
                         </div>
@@ -342,96 +349,96 @@
     <footer>
         <!-- footer-top-start -->
         @*<div class="footer-top">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="footer-top-menu bb-2">
-                            <nav>
-                                <ul>
-                                    <li><a href="#">home</a></li>
-                                    <li><a href="#">Enable Cookies</a></li>
-                                    <li><a href="#">Privacy and Cookie Policy</a></li>
-                                    <li><a href="#">contact us</a></li>
-                                    <li><a href="#">blog</a></li>
-                                </ul>
-                            </nav>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="footer-top-menu bb-2">
+                                <nav>
+                                    <ul>
+                                        <li><a href="#">home</a></li>
+                                        <li><a href="#">Enable Cookies</a></li>
+                                        <li><a href="#">Privacy and Cookie Policy</a></li>
+                                        <li><a href="#">contact us</a></li>
+                                        <li><a href="#">blog</a></li>
+                                    </ul>
+                                </nav>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>*@
+            </div>*@
         <!-- footer-top-start -->
         <!-- footer-mid-start -->
         @*<div class="footer-mid ptb-50">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-8 col-md-8 col-sm-12">
-                        <div class="row">
-                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                <div class="single-footer br-2 xs-mb">
-                                    <div class="footer-title mb-20">
-                                        <h3>Products</h3>
-                                    </div>
-                                    <div class="footer-mid-menu">
-                                        <ul>
-                                            <li><a href="about.html">About us</a></li>
-                                            <li><a href="#">Prices drop </a></li>
-                                            <li><a href="#">New products</a></li>
-                                            <li><a href="#">Best sales</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                <div class="single-footer br-2 xs-mb">
-                                    <div class="footer-title mb-20">
-                                        <h3>Our company</h3>
-                                    </div>
-                                    <div class="footer-mid-menu">
-                                        <ul>
-                                            <li><a href="contact.html">Contact us</a></li>
-                                            <li><a href="#">Sitemap</a></li>
-                                            <li><a href="#">Stores</a></li>
-                                            <li><a href="register.html">My account </a></li>
-                                        </ul>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-8 col-md-8 col-sm-12">
+                            <div class="row">
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                    <div class="single-footer br-2 xs-mb">
+                                        <div class="footer-title mb-20">
+                                            <h3>Products</h3>
+                                        </div>
+                                        <div class="footer-mid-menu">
+                                            <ul>
+                                                <li><a href="about.html">About us</a></li>
+                                                <li><a href="#">Prices drop </a></li>
+                                                <li><a href="#">New products</a></li>
+                                                <li><a href="#">Best sales</a></li>
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                <div class="single-footer br-2 xs-mb">
-                                    <div class="footer-title mb-20">
-                                        <h3>Your account</h3>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                    <div class="single-footer br-2 xs-mb">
+                                        <div class="footer-title mb-20">
+                                            <h3>Our company</h3>
+                                        </div>
+                                        <div class="footer-mid-menu">
+                                            <ul>
+                                                <li><a href="contact.html">Contact us</a></li>
+                                                <li><a href="#">Sitemap</a></li>
+                                                <li><a href="#">Stores</a></li>
+                                                <li><a href="register.html">My account </a></li>
+                                            </ul>
+                                        </div>
                                     </div>
-                                    <div class="footer-mid-menu">
-                                        <ul>
-                                            <li><a href="contact.html">Addresses</a></li>
-                                            <li><a href="#">Credit slips </a></li>
-                                            <li><a href="#"> Orders</a></li>
-                                            <li><a href="#">Personal info</a></li>
-                                        </ul>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                    <div class="single-footer br-2 xs-mb">
+                                        <div class="footer-title mb-20">
+                                            <h3>Your account</h3>
+                                        </div>
+                                        <div class="footer-mid-menu">
+                                            <ul>
+                                                <li><a href="contact.html">Addresses</a></li>
+                                                <li><a href="#">Credit slips </a></li>
+                                                <li><a href="#"> Orders</a></li>
+                                                <li><a href="#">Personal info</a></li>
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-12">
-                        <div class="single-footer mrg-sm">
-                            <div class="footer-title mb-20">
-                                <h3>STORE INFORMATION</h3>
-                            </div>
-                            <div class="footer-contact">
-                                <p class="adress">
-                                    <span>My Company</span>
-                                    42 avenue des Champs Elysées 75000 Paris France
-                                </p>
-                                <p><span>Call us now:</span> (+1)866-540-3229</p>
-                                <p><span>Email:</span>  support@hastech.com</p>
+                        <div class="col-lg-4 col-md-4 col-sm-12">
+                            <div class="single-footer mrg-sm">
+                                <div class="footer-title mb-20">
+                                    <h3>STORE INFORMATION</h3>
+                                </div>
+                                <div class="footer-contact">
+                                    <p class="adress">
+                                        <span>My Company</span>
+                                        42 avenue des Champs Elysées 75000 Paris France
+                                    </p>
+                                    <p><span>Call us now:</span> (+1)866-540-3229</p>
+                                    <p><span>Email:</span>  support@hastech.com</p>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>*@
+            </div>*@
         <!-- footer-mid-end -->
         <!-- footer-bottom-start -->
         <div class="footer-bottom">
