@@ -95,18 +95,25 @@ namespace UI.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Profile([Bind("CustomerId,FullName,Email,EmailConfirmed,Address,Phone,PhoneConfirmed,Username,Password,RandomKey,IsActive")] Customer customer)
+        public async Task<IActionResult> Profile([Bind("CustomerId,FullName,Email,Address,Phone")] Customer model)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
+                    var customer = HttpContext.Session.Get<Customer>("KhachHang");
+
+                    customer.FullName = model.FullName;
+                    customer.Email = model.Email;
+                    customer.Address = model.Address;
+                    customer.Phone = model.Phone;
+
                     _context.Update(customer);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CustomerExists(customer.CustomerId))
+                    if (!CustomerExists(model.CustomerId))
                     {
                         return NotFound();
                     }
@@ -117,7 +124,7 @@ namespace UI.Controllers
                 }
                 return RedirectToAction(nameof(Profile));
             }
-            return View(customer);
+            return View(model);
         }
 
         private bool CustomerExists(int id)
@@ -184,6 +191,31 @@ kh.FullName),
             await HttpContext.SignOutAsync();
 
             return RedirectToAction("Index", "Product");
+        }
+
+        public IActionResult ChangePassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult ChangePassword(ChangePasswordViewModel model)
+        {
+            var customer = HttpContext.Session.Get<Customer>("KhachHang");
+            if(customer.Password != (model.OldPassword + customer.RandomKey).ToMD5())
+            {
+                ModelState.AddModelError("loi", "mật khẩu cũ không đúng");
+                return View();
+            }
+
+            //tạo mới password
+            customer.RandomKey = MyTools.GenerateRandomKey();
+            customer.Password = (model.NewPassword + customer.RandomKey).ToMD5();
+
+            _context.Update(customer);
+            _context.SaveChanges();
+
+            return RedirectToAction("Logout");
         }
     }
 }
