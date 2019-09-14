@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using UI.Data;
+using UI.ViewModels;
 
 namespace UI.Models
 {
@@ -17,6 +18,7 @@ namespace UI.Models
                 .ForMember(dest => dest.DonGia, opt => opt.MapFrom(src => src.Price))
                 .ForMember(dest => dest.GiamGia, opt => opt.MapFrom(src => src.Discount))
                 .ForMember(dest => dest.Hinh, opt => opt.MapFrom(src => src.MainImage));
+            CreateMap<RegisterViewModel, Customer>();
         }
     }
 }

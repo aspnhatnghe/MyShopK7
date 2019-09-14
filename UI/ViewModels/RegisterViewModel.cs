@@ -15,6 +15,7 @@ namespace UI.ViewModels
         [MaxLength(100)]
         [Required]
         [Remote(controller: "Customer", action: "CheckEmailUnique", ErrorMessage = "Email đã được đăng ký")]
+        [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
         public string Address { get; set; }
         [MaxLength(20)]
