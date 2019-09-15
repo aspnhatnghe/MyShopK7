@@ -31,7 +31,7 @@ namespace UI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSession(opt => {
-                opt.IdleTimeout = TimeSpan.FromMinutes(15)
+                opt.IdleTimeout = TimeSpan.FromMinutes(15);
             });
             //services.Configure<CookiePolicyOptions>(options =>
             //{
