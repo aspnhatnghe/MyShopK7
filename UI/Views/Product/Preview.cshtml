@@ -27,36 +27,36 @@
     </div>
     <div class="col-md-7 col-sm-7 col-xs-12">
         <div class="modal-pro-content">
-            <h3></h3>
+            <h3>@Model.Title</h3>
             <div class="price">
-                <span></span>
+                <span>@Model.SalePrice.ToVND()</span>
             </div>
             <p></p>
             <div class="quick-view-select">
                 <div class="select-option-part">
-                    <label></label>
+                    <label>Size*</label>
                     <select class="select">
-                        <option value=""></option>
-                        <option value=""></option>
-                        <option value=""></option>
+                        <option value="S">S</option>
+                        <option value="M">M</option>
+                        <option value="L">L</option>
                     </select>
                 </div>
                 <div class="quickview-color-wrap">
-                    <label></label>
+                    <label>Color*</label>
                     <div class="quickview-color">
                         <ul>
-                            <li class="blue"></li>
-                            <li class="red"></li>
-                            <li class="pink"></li>
+                            <li class="blue">b</li>
+                            <li class="red">r</li>
+                            <li class="pink">p</li>
                         </ul>
                     </div>
                 </div>
             </div>
-            <form action="#">
-                <input type="number" value="1" />
-                <button></button>
+            <form asp-action="AddToCart" asp-route-productId="@Model.ProductId" asp-controller="Cart">
+                <input type="number" value="1" name="quantity" />
+                <button>Mua ngay</button>
             </form>
-            <span><i class="fa fa-check"></i></span>
+            <span><i class="fa fa-check"></i>@(Model.Amount > 0 ? "Còn hàng": "Hết hàng")</span>
         </div>
     </div>
 </div>

@@ -80,5 +80,18 @@ namespace UI.Controllers
             var product = _context.Products.SingleOrDefault(p => p.ProductId == id);
             return PartialView(product);
         }
+
+        public IActionResult Discount()
+        {
+            var data = _context.Products.Where(p => p.HasDiscount).OrderByDescending(p=> p.Discount);
+
+            var category = new Category
+            {
+                CategoryName = "Khuyến mãi"
+            };
+            ViewBag.Category = category;
+
+            return View("Index", data);
+        }
     }
 }
