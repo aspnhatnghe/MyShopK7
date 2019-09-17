@@ -27,5 +27,8 @@ namespace UI.Data
         public double Total => Price + Tax + FeeShip - Discount;
 
         public ICollection<OrderDetail> OrderDetails { get; set; }
+
+        public string Receiver { get; set; }
+        public string ShipTo { get; set; }
     }
 }

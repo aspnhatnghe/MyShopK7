@@ -1,0 +1,62 @@
+﻿@model IEnumerable<UI.Models.CartItem>
+
+@{
+    var tongTien = Model.Sum(p => p.ThanhTien);
+}
+<div class="cart_totals">
+    <h2>Thông tin Thanh toán</h2>
+    <table>
+        <tbody>
+            <tr class="cart-subtotal">
+                <th>Tiền</th>
+                <td>
+                    <span class="amount">@tongTien.ToVND()</span>
+                </td>
+            </tr>
+            @{
+                var discountCoupon = 0.0;
+                var coupon = Context.Session.Get<Coupon>("Coupon");
+            }
+            @using UI.Helpers
+            @if (coupon != null)
+            {
+                var disPer = coupon.Discount ?? 0 * tongTien;
+                var vourche = coupon.Voucher ?? 0;
+                discountCoupon = Math.Max(disPer, vourche);
+                <tr>
+                    <td>COUPON</td>
+                    <td>
+                        <span class="amount">- @discountCoupon.ToVND()</span>
+                    </td>
+                </tr>
+            }
+            @*<tr class="shipping">
+                    <th>Phí vận chuyển</th>
+                    <td>
+                        <ul id="shipping_method">
+                            <li>
+                                <input type="radio">
+                                <label>
+                                    Flat Rate:
+                                    <span class="amount">£7.00</span>
+                                </label>
+                            </li>
+                            <li>
+                                <input type="radio">
+                                <label> Free Shipping </label>
+                            </li>
+                        </ul>
+                        <a href="#">Calculate Shipping</a>
+                    </td>
+                </tr>*@
+            <tr class="order-total">
+                <th>Tổng tiền</th>
+                <td>
+                    <strong>
+                        <span class="amount">@((tongTien - discountCoupon).ToVND())</span>
+                    </strong>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

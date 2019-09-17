@@ -61,5 +61,11 @@ namespace UI.Controllers
 
             return View("Index", _cartService.GetCart());
         }
+
+        public IActionResult Checkout()
+        {
+
+            return View();
+        }
     }
 }
