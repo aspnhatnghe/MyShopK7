@@ -12,6 +12,7 @@ namespace UI.Models
     {
         void AddToCart(int productId, int quantity = 1);
         void RemoveItem(int productId);
+        void RemoveAll();
         List<CartItem> GetCart();
     }
 
@@ -63,6 +64,11 @@ namespace UI.Models
         public List<CartItem> GetCart()
         {
             return Carts;
+        }
+
+        public void RemoveAll()
+        {
+            _httpContext.HttpContext.Session.Remove("Cart");
         }
 
         public void RemoveItem(int productId)

@@ -1,6 +1,8 @@
 ﻿@model UI.ViewModels.CheckoutViewModel
+@using UI.Helpers
 @{
     ViewData["Title"] = "Checkout";
+    var khachHang = Context.Session.Get<Customer>("KhachHang");
 }
 
 <div class="entry-header-area">
@@ -25,24 +27,58 @@
                         <div class="row">
                             <div class="checkout-form-list">
                                 <label>Full Name <span class="required">*</span></label>
-                                <input asp-for="FullName" placeholder="">
+                                <input asp-for="FullName" value="@khachHang?.FullName">
                             </div>
                             <div class="checkout-form-list">
                                 <label>Email <span class="required">*</span></label>
-                                <input asp-for="Email" placeholder="">
+                                <input asp-for="Email" value="@khachHang?.Email">
                             </div>
                             <div class="checkout-form-list">
                                 <label>Phone <span class="required">*</span></label>
-                                <input asp-for="Phone" placeholder="">
+                                <input asp-for="Phone" value="@khachHang?.Phone">
+                            </div>
+                            <div class="checkout-form-list">
+                                <label class="col-4">Address <span class="required">*</span></label>
+                                <input asp-for="Address" value="@khachHang?.Address" class="col-8">
                             </div>
                         </div>
                     </div>
 
+                    <div>
+                        <h3>Thông tin người nhận</h3>
+                        <input asp-for="IsTheSame" id="chkTheSame" /> Cùng thông tin người mua
+                        <div id="ThongTinNguoiNhan">
+                            <div class="row">
+                                <label asp-for="Receiver" class="col-3"></label>
+                                <input asp-for="Receiver" class="col-9" />
+                            </div>
+                            <div class="row">
+                                <label asp-for="ShipTo" class="col-3"></label>
+                                <input asp-for="ShipTo" class="col-9" />
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                     @await Component.InvokeAsync("YourOrder")
                 </div>
+                <button class="btn btn-success">Checkout</button>
             </form>
         </div>
     </div>
 </div>
+@section Scripts{
+    <script>
+        $(function () {
+            $("#chkTheSame").change(function () {
+                var checked = $(this).prop("checked");
+                if (checked) {
+                    $("#ThongTinNguoiNhan").addClass("d-none");
+                }
+                else {
+                    $("#ThongTinNguoiNhan").removeClass("d-none");
+                }
+            });
+        });
+    </script>
+}

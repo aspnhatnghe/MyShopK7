@@ -14,6 +14,8 @@ namespace UI.ViewModels
         [MaxLength(100)]
         [Required]
         public string Email { get; set; }
+        public string Address { get; set; }
+        public bool IsTheSame { get; set; }
 
         [MaxLength(20)]
         public string Phone { get; set; }
