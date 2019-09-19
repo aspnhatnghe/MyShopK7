@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using PagedList.Core;
 using UI.Data;
+using UI.Models;
 
 namespace UI.Controllers
 {
@@ -41,8 +44,19 @@ namespace UI.Controllers
             return result;
         }
 
-        public IActionResult Index(int? cateId)
+        [Route("[controller]/[action]")]
+        [Route("{cateName?}/{page?}")]
+        //public IActionResult Index(int? cateId, int page = 1)
+        public IActionResult Index(string cateName, int page = 1)
         {
+            int? cateId = null;
+            ViewBag.cateName = cateName;
+            if(cateName != "tat-ca")
+            {
+                var cate = _context.Categories.SingleOrDefault(p => p.CategoryName.ToUrlFriendly() == cateName);
+                if (cate != null) cateId = cate.CategoryId;
+            }
+
             var category = new Category {
                 CategoryName = "Tất cả"
             };
@@ -56,11 +70,16 @@ namespace UI.Controllers
                 data = data.Where(p => p.CategoryId.HasValue && cateIdList.Contains(p.CategoryId.Value));
             }
 
+            data = data.Include(p => p.Category);
+
             ViewBag.Category = category;
 
-            return View(data);
+            //Thực hiện phân trang với page là trang hiện tại, PAGE_SIZE số hàng hóa mỗi trang
+            PagedList<Product> model = new PagedList<Product>(data, page, MyTools.PAGE_SIZE);
+            return View(model);
         }
 
+        //[Route()]
         public IActionResult Detail(int id)
         {
             var product = _context.Products.SingleOrDefault(p => p.ProductId == id);

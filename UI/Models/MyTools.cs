@@ -12,6 +12,8 @@ namespace UI.Models
 {
     public class MyTools
     {
+        public static int PAGE_SIZE = 3;
+
         public static string SaveFileToFolder(IFormFile file, string folderName, string productId)
         {
             string fileName = $"{DateTime.Now.Ticks}_{file.FileName}";
@@ -80,6 +82,7 @@ namespace UI.Models
             url = Regex.Replace(url, @"[^a-z0-9\s-]", "");
             url = Regex.Replace(url, @"\s+", "-");
             url = Regex.Replace(url, @"\s", "-");
+            url = Regex.Replace(url, @"(-)+", "-");
 
             return url;
         }
